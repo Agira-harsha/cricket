@@ -38,7 +38,7 @@
             if (!timerStarted) {
                 coroutineScope.launch {
                     delay(5000L)
-                   PostRouter.navigateTo(Screen.DashBoardDetails)
+                   PostRouter.navigateTo(Screen.LoginScreen)
                 }
                 timerStarted = true
             }

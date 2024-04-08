@@ -2,13 +2,15 @@
 <resources>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>2
-    <color name="teal_200">#FF03DAC5</color>
+    <color name="purple_700">#994D1C</color>2
+    <color name="teal_200">#F6E879CD</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="textColor">#000000</color>
-    <color name="bgColor">#B4B4B8</color>
+    <color name="bgColor">#88CBBA</color>
     <color name="homebg">#35374B</color>
-    <color name="tournament">#4CCD99</color>
+    <color name="tournament">#7B592D</color>
+    <color name="join">#E55604</color>
+    <color name="view">#E1F0DA</color>
 </resources>

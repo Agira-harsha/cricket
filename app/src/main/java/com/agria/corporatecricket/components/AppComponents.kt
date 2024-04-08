@@ -2,6 +2,7 @@ package com.agria.corporatecricket.components
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -44,6 +46,8 @@ import com.agria.corporatecricket.Dtos.SignUpRequest
 import com.agria.corporatecricket.Handlers.ServiceBuilder
 import com.agria.corporatecricket.Handlers.ServiceBuilder.logUser
 import com.agria.corporatecricket.R
+import com.agria.corporatecricket.Router.PostRouter
+import com.agria.corporatecricket.Router.Screen
 
 
 @Composable
@@ -94,7 +98,7 @@ fun MyTextField(
         value = inputValue,
         onValueChange = {
             inputValue = it
-            onValueChanged(it) // Call the callback function with the new value
+            onValueChanged(it)
         },
         label = { Text(value) },
         shape = RoundedCornerShape(14.dp)
@@ -114,7 +118,7 @@ fun MyTextFieldPassword(
         value = inputValue,
         onValueChange = {
             inputValue = it
-            onValueChanged(it) // Call the callback function with the new value
+            onValueChanged(it)
         },
         label = { Text(value) },
         shape = RoundedCornerShape(14.dp),
@@ -124,7 +128,7 @@ fun MyTextFieldPassword(
 
 
 @Composable
-fun CheckBoxComponent(value: String,onTextSelected:(String)->Unit) {
+fun CheckBoxComponent(value: String, onTextSelected: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -138,7 +142,7 @@ fun CheckBoxComponent(value: String,onTextSelected:(String)->Unit) {
         Checkbox(
             checked = checkedState.value,
             onCheckedChange = { checkedState.value != checkedState.value })
-        ClickableTextComponent(value = value,onTextSelected)
+        ClickableTextComponent(value = value, onTextSelected)
 
     }
 
@@ -146,7 +150,7 @@ fun CheckBoxComponent(value: String,onTextSelected:(String)->Unit) {
 }
 
 @Composable
-fun ClickableTextComponent(value: String,onTextSelected:(String)->Unit) {
+fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
     val intial = "By continuing  you accept our "
     val privacy = "Privacy Policy"
     val and = " and "
@@ -168,52 +172,66 @@ fun ClickableTextComponent(value: String,onTextSelected:(String)->Unit) {
         annotatedStrig.getStringAnnotations(offset, offset)
             .firstOrNull()?.also { span ->
                 Log.d("ClickableTextComponent", "{$span}")
-                if(span.item == terms || span.item==privacy){
+                if (span.item == terms || span.item == privacy) {
                     onTextSelected(span.item)
                 }
             }
     })
 
 }
+
 @Composable
-fun ButtonComponent(value:String,username:String,email:String,password:String){
-    Button(onClick = { ServiceBuilder.createUser(SignUpRequest(username, email, password)) }, modifier = Modifier
-        .fillMaxWidth()
-        .heightIn(48.dp), contentPadding = PaddingValues(),
+fun ButtonComponent(value: String, username: String, email: String, password: String) {
+    var context = LocalContext.current
+    Button(
+        onClick = {
+            if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                ServiceBuilder.createUser(SignUpRequest(username, email, password),context)
+
+
+            } else {
+                Toast.makeText(context, "fill the  all fileds", Toast.LENGTH_SHORT).show()
+
+            }
+        }, modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(48.dp), contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent)
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(48.dp)
-            .background(
-                brush = Brush.horizontalGradient(listOf(Color.Blue, Color.Cyan)),
-                shape = RoundedCornerShape(50.dp)
-            ),
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp)
+                .background(
+                    brush = Brush.horizontalGradient(listOf(Color.Blue, Color.Cyan)),
+                    shape = RoundedCornerShape(50.dp)
+                ),
             contentAlignment = Alignment.Center
 
-        ){
-            Text(text = value,
+        ) {
+            Text(
+                text = value,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold
+            )
         }
 
 
     }
 }
 
-fun handleSignUp(username: String, email: String, password: String) {
-    val createUser=SignUpRequest(username,email,password)
-    ServiceBuilder.createUser(createUser)
-}
 
 @Composable
-fun DividerText(){
-    Row(modifier=Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically) {
+fun DividerText() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
-        Divider(modifier= Modifier
-            .fillMaxWidth()
-            .weight(1f),
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             color = Color.LightGray,
             thickness = 2.dp
         )
@@ -221,23 +239,25 @@ fun DividerText(){
         Text(text = "Or", fontSize = 14.sp, modifier = Modifier.padding(6.dp))
         Spacer(modifier = Modifier.padding(2.dp))
 
-        Divider(modifier= Modifier
-            .fillMaxWidth()
-            .weight(1f),
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             color = Color.LightGray,
             thickness = 2.dp
         )
     }
 }
+
 @Composable
-fun ClickableLoginTextComponent(trying :Boolean=true,onTextSelected:(String)->Unit) {
-    val intial = if(trying)"Already Have account? " else "Don't have account?"
-    val login = if(trying)"Login" else "SignUp"
+fun ClickableLoginTextComponent(trying: Boolean = true, onTextSelected: (String) -> Unit) {
+    val intial = if (trying) "Already Have account? " else "Don't have account?"
+    val login = if (trying) "Login" else "SignUp"
 
     val annotatedStrig = buildAnnotatedString {
         append(intial)
         withStyle(style = SpanStyle(color = Color.Magenta)) {
-            pushStringAnnotation(tag = login, annotation =login)
+            pushStringAnnotation(tag = login, annotation = login)
             append(login)
         }
 
@@ -251,17 +271,18 @@ fun ClickableLoginTextComponent(trying :Boolean=true,onTextSelected:(String)->Un
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal,
             textAlign = TextAlign.Center
-        ),text = annotatedStrig, onClick = { offset ->
-        annotatedStrig.getStringAnnotations(offset, offset)
-            .firstOrNull()?.also { span ->
-                Log.d("ClickableLoginTextComponent", "{$span}")
-                if(span.item ==login ){
-                    onTextSelected(span.item)
+        ), text = annotatedStrig, onClick = { offset ->
+            annotatedStrig.getStringAnnotations(offset, offset)
+                .firstOrNull()?.also { span ->
+                    Log.d("ClickableLoginTextComponent", "{$span}")
+                    if (span.item == login) {
+                        onTextSelected(span.item)
+                    }
                 }
-            }
-    })
+        })
 
 }
+
 @Composable
 fun UnderLineNormalTextComponent(value: String) {
     Text(
@@ -281,27 +302,41 @@ fun UnderLineNormalTextComponent(value: String) {
     )
 
 }
+
 @Composable
-fun LogButtonComponent(value:String,email:String,password:String,context:Context){
-    Button(onClick = { logUser(LogInRequest(email, password), context ) },
+fun LogButtonComponent(value: String, email: String, password: String, context: Context) {
+    var context1 = LocalContext.current
+
+    Button(
+        onClick = {
+            if (email.isNotBlank() && password.isNotBlank()) {
+                logUser(LogInRequest(email, password), context)
+
+            } else {
+                Toast.makeText(context, "fill the details", Toast.LENGTH_SHORT).show()
+            }
+        },
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp), contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent)
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(48.dp)
-            .background(
-                brush = Brush.horizontalGradient(listOf(Color.Blue, Color.Cyan)),
-                shape = RoundedCornerShape(50.dp)
-            ),
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp)
+                .background(
+                    brush = Brush.horizontalGradient(listOf(Color.Blue, Color.Cyan)),
+                    shape = RoundedCornerShape(50.dp)
+                ),
             contentAlignment = Alignment.Center
 
-        ){
-            Text(text = value,
+        ) {
+            Text(
+                text = value,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold
+            )
         }
 
 

@@ -18,6 +18,7 @@ object SessionManager {
         editor.putInt("userId", loginResponse.userId.toInt())
         editor.putString("userName", loginResponse.userName)
         editor.putString("email", loginResponse.email)
+        editor.putString("token", loginResponse.token)
 
         editor.apply()
     }
@@ -27,5 +28,14 @@ object SessionManager {
         
         return sharedPreferences.getInt("userId", -1)
     }
-    
+    fun getToken(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getString("token", null)
+    }
+    fun clearSession(context: Context) {
+        val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }
 }

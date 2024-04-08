@@ -14,10 +14,7 @@ import retrofit2.http.Path
 interface ApiService {
     @POST("user/sigup")
     fun signUp(@Body request: SignUpRequest): Call<SignUpResponse>
-    @GET("user/login/{id}")
-    fun login(@Path("id") id:Int):Call<LogInResponse>
     @POST("api/user/login")
-    fun loginEmail(@Body request: LogInRequest):Call<LogInResponse>
-    @GET("tournament")
-    fun tournamentInfo():List<TournamentResponse>
+    fun loginEmail(@Body request: LogInRequest): Call<LogInResponse>
+
 }

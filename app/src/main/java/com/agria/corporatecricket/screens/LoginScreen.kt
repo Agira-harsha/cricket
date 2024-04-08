@@ -39,7 +39,7 @@ fun LoginScreen() {
             .fillMaxSize()
             .background(color = Color.White)
             .padding(28.dp)
-    ){
+    ) {
         Column(modifier = Modifier.fillMaxSize())
         {
 
@@ -58,7 +58,7 @@ fun LoginScreen() {
             UnderLineNormalTextComponent(value = "forgot password")
             Spacer(modifier = Modifier.height(80.dp))
             val context = LocalContext.current
-            LogButtonComponent(value = "Login",email,password,context)
+            LogButtonComponent(value = "Login", email, password, context)
             Spacer(modifier = Modifier.height(20.dp))
             DividerText()
             ClickableLoginTextComponent(false, onTextSelected = {
@@ -69,12 +69,12 @@ fun LoginScreen() {
         }
 
 
-
     }
 
 }
+
 @Preview
 @Composable
-fun LoginScreenPreview(){
+fun LoginScreenPreview() {
     LoginScreen()
 }

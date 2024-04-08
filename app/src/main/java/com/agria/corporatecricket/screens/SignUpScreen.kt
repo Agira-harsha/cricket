@@ -1,6 +1,5 @@
 package com.agria.corporatecricket.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,13 +27,11 @@ import com.agria.corporatecricket.components.MyTextFieldPassword
 import com.agria.corporatecricket.components.NormalTextComponent
 
 @Composable
-fun SignUpScreen(){
+fun SignUpScreen() {
 
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-   var password by remember { mutableStateOf("") }
-
-
+    var password by remember { mutableStateOf("") }
 
     Surface(
         color = Color.White,
@@ -43,45 +40,42 @@ fun SignUpScreen(){
             .background(color = Color.White)
             .padding(28.dp)
     ) {
-         Column(modifier = Modifier.fillMaxSize())
-         {
-             NormalTextComponent("Hey hello")
-             HeadingTextComponent(value = "Create an Account")
-             Spacer(modifier = Modifier.height(16.dp))
+        Column(modifier = Modifier.fillMaxSize())
+        {
+            NormalTextComponent("Hey hello")
+            HeadingTextComponent(value = "Create an Account")
+            Spacer(modifier = Modifier.height(16.dp))
 
-             MyTextField(value = "username") { newValue ->
-                 username = newValue // Update the value of username
-             }
-             Spacer(modifier = Modifier.height(10.dp))
-             MyTextField(value = "email") { newValue ->
-                 email = newValue // Update the value of username
-             }
+            MyTextField(value = "username") { newValue ->
+                username = newValue
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            MyTextField(value = "email") { newValue ->
+                email = newValue
+            }
 
-             Spacer(modifier = Modifier.height(10.dp))
-//             MyTextFieldPassword( "enter password")
-             MyTextFieldPassword(value = " password ") { newValue ->
-                 password = newValue // Update the value in the caller's scope
-             }
-//             CheckBoxComponent(value = "data", onTextSelected = {
-//                 PostRouter.navigateTo(Screen.TermsAndConditionsScreen)
-//             })
-             Spacer(modifier = Modifier.height(80.dp))
-             ButtonComponent(value = "SignUp",username, email, password)
+            Spacer(modifier = Modifier.height(10.dp))
+
+            MyTextFieldPassword(value = " password ") { newValue ->
+                password = newValue
+            }
+            Spacer(modifier = Modifier.height(80.dp))
+            ButtonComponent(value = "SignUp", username, email, password)
 
 
-             Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
-             DividerText()
-             ClickableLoginTextComponent(true, onTextSelected = {
-                 PostRouter.navigateTo(Screen.LoginScreen)
+            DividerText()
+            ClickableLoginTextComponent(true, onTextSelected = {
+                PostRouter.navigateTo(Screen.LoginScreen)
 
-             })
-         }
+            })
+        }
     }
 }
 @Preview
 @Composable
-fun SignUpScreenPreview(){
+fun SignUpScreenPreview() {
     SignUpScreen()
 
 }
